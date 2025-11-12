@@ -3,7 +3,6 @@ import "dotenv/config";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/user.route.js";
-import resumeRouter from "./routes/resume.route.js";
 import { connectDb } from "./config/db.js";
 
 const app = express();
@@ -15,7 +14,6 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/resumes", resumeRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
