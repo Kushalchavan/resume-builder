@@ -1,7 +1,9 @@
-import React from "react";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router";
 
 const Hero = () => {
-  const [menuOpen, setMenuOpen] = React.useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const logos = [
     "https://saasly.prebuiltui.com/assets/companies-logo/instagram.svg",
@@ -17,17 +19,20 @@ const Hero = () => {
         {/* Navbar */}
         <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
           <a href="#">
-            <h1 className="text-xl font-bold text-indigo-600 ">EvolveCV</h1>
+            <h1 className="text-xl font-bold text-indigo-600 tracking-wider">EvolveCV</h1>
           </a>
 
           <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
             <a href="#" className="hover:text-indigo-600 transition">
               Home
             </a>
-            <a href="#" className="hover:text-indigo-600 transition">
+            <a href="#features" className="hover:text-indigo-600 transition">
               Features
             </a>
-            <a href="#" className="hover:text-indigo-600 transition">
+            <a
+              href="#testimonials"
+              className="hover:text-indigo-600 transition"
+            >
               Testimonials
             </a>
             <a href="#" className="hover:text-indigo-600 transition">
@@ -36,18 +41,18 @@ const Hero = () => {
           </div>
 
           <div className="flex gap-2">
-            <a
-              href=""
+            <Link
+              to="/signup"
               className="hidden md:block px-6 py-2 bg-indigo-500 hover:bg-indigo-700 active:scale-95 transition-all rounded-full text-white"
             >
               Get started
-            </a>
-            <a
-              href=""
+            </Link>
+            <Link
+              to="/login"
               className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 transition-all rounded-full text-slate-700 hover:text-slate-900"
             >
               Login
-            </a>
+            </Link>
           </div>
 
           <button
@@ -129,7 +134,7 @@ const Hero = () => {
             </div>
 
             <div>
-              <div className="flex ">
+              <div className="flex">
                 {Array(5)
                   .fill(0)
                   .map((_, i) => (
@@ -171,46 +176,17 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex items-center gap-4 ">
-            <a
-              href="/"
-              className="bg-indigo-500 hover:bg-indigo-600 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-indigo-400 flex items-center transition-colors"
+            <Link
+              to="/signup"
+              className="bg-indigo-500 hover:bg-indigo-600 text-white rounded-full px-9 h-12 m-1 ring-offset-2 ring-1 ring-indigo-400 flex gap-2 items-center transition-colors cursor-pointer"
             >
               Get started
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-arrow-right ml-1 size-4"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
-              </svg>
-            </a>
-            <button className="flex items-center gap-2 border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-video size-5"
-                aria-hidden="true"
-              >
-                <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path>
-                <rect x="2" y="6" width="14" height="12" rx="2"></rect>
-              </svg>
-              <span>Try demo</span>
+              <ArrowRight className="stroke-1 size-5" />
+            </Link>
+            <button className="flex items-center gap-2 border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700 cursor-pointer">
+                  
+                <Sparkles className="stroke-1" />
+              <span>Try Now</span>
             </button>
           </div>
 
@@ -233,15 +209,6 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <style>
-        {`
-                    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-                    * {
-                        font-family: 'Poppins', sans-serif;
-                    }
-                `}
-      </style>
     </>
   );
 };

@@ -1,20 +1,19 @@
-import Banner from "./components/home/Banner";
-import CallToAction from "./components/home/CallToAction";
-import Features from "./components/home/Features";
-import Footer from "./components/home/Footer";
-import Hero from "./components/home/Hero";
-import Testimonial from "./components/home/Testimonial";
+import { BrowserRouter, Routes, Route } from "react-router";
+import Home from "./pages/Home";
+import Signup from "./pages/auth/Signup";
+import Login from "./pages/auth/Login";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
-    <>
-      <Banner />
-      <Hero />
-      <Features />
-      <Testimonial />
-      <CallToAction />
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home/>}/>
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/dashboard" element={<Dashboard/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 };
 export default App;

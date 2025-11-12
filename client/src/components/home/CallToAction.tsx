@@ -1,3 +1,6 @@
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router";
+
 const CallToAction = () => {
   return (
     <div
@@ -8,27 +11,13 @@ const CallToAction = () => {
         <p className="text-xl font-medium max-w-md text-slate-800">
           Build a Professional Resume That Helps You stand Out and Get Hired
         </p>
-        <a
-          href="#"
+        <Link
+          to="/login"
           className="flex items-center gap-2 rounded py-3 px-8 bg-indigo-600 hover:bg-indigo-700 transition text-white"
         >
           <span>Get Started</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="size-4.5"
-          >
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-        </a>
+          <ArrowRight className="stroke-1.4 size-5" />
+        </Link>
       </div>
     </div>
   );
