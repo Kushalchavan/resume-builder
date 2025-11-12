@@ -1,6 +1,16 @@
 import { BookUserIcon } from "lucide-react";
 import Title from "./Title";
 
+interface TestimonialTypes {
+  image: string;
+  name: string;
+  handle: string;
+}
+
+interface CardProps {
+  card: TestimonialTypes;
+}
+
 const Testimonial = () => {
   const cardsData = [
     {
@@ -29,7 +39,7 @@ const Testimonial = () => {
     },
   ];
 
-  const CreateCard = ({ card }) => (
+  const CreateCard = ({ card }: CardProps) => (
     <div className="p-4 rounded-lg mx-4 shadow hover:shadow-lg transition-all duration-200 w-72 shrink-0">
       <div className="flex gap-2">
         <img
