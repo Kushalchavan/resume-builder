@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
 import Dashboard from "./pages/Dashboard";
+import { Toaster } from "./components/ui/sonner";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/login" element={<Login/>}/>
         <Route path="/dashboard" element={<Dashboard/>}/>
       </Routes>
+      <Toaster/>
     </BrowserRouter>
   );
 };
