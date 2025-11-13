@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/user.route.js";
 import resumeRouter from "./routes/resume.route.js";
 import { connectDb } from "./config/db.js";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -13,6 +14,12 @@ connectDb();
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/resumes", resumeRouter);

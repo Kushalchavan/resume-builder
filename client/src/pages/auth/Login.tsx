@@ -1,7 +1,26 @@
 import { Lock, Mail } from "lucide-react";
-import { Link } from "react-router";
+import { useState, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router";
+import { loginUser } from "../../api/authApi";
+import { toast } from "sonner";
 
 const Login = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await loginUser({ email, password });
+      navigate("/dashboard");
+      toast.success("Login successfull");
+    } catch (error) {
+      console.log(error);
+      toast.error("Login failed");
+    }
+  };
+
   return (
     <div className="flex h-[700px] w-full">
       <div className="w-full hidden md:inline-block">
@@ -13,7 +32,10 @@ const Login = () => {
       </div>
 
       <div className="w-full flex flex-col items-center justify-center">
-        <form className="md:w-96 w-80 flex flex-col items-center justify-center">
+        <form
+          onSubmit={handleLogin}
+          className="md:w-96 w-80 flex flex-col items-center justify-center"
+        >
           <h2 className="text-4xl text-gray-900 font-medium">Login</h2>
           <p className="text-sm text-gray-500/90 mt-3">
             Welcome back! Please login to continue
@@ -41,6 +63,8 @@ const Login = () => {
             <Mail className="stroke-1" />
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email id"
               className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
@@ -51,6 +75,8 @@ const Login = () => {
             <Lock className="stroke-1" />
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
@@ -65,7 +91,10 @@ const Login = () => {
           </button>
           <p className="text-gray-500/90 text-sm mt-4">
             Don’t have an account?{" "}
-            <Link className="text-indigo-400 hover:underline font-semibold" to="/signup">
+            <Link
+              className="text-indigo-400 hover:underline font-semibold"
+              to="/signup"
+            >
               Sign up
             </Link>
           </p>

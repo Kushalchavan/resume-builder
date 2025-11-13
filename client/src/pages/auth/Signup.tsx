@@ -1,7 +1,27 @@
 import { Lock, Mail, User } from "lucide-react";
-import { Link } from "react-router";
+import { useState, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router";
+import { signupUser } from "../../api/authApi";
+import { toast } from "sonner";
 
 const Signup = () => {
+  const [username, setUserName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await signupUser({ username, email, password });
+      navigate("/dashbaord");
+      toast.success("Signup successfully");
+    } catch (error) {
+      console.error(error);
+      toast.error("Sign Up failed");
+    }
+  };
+
   return (
     <div className="flex h-[700px] w-full">
       <div className="w-full hidden md:inline-block">
@@ -13,7 +33,10 @@ const Signup = () => {
       </div>
 
       <div className="w-full flex flex-col items-center justify-center">
-        <form className="md:w-96 w-80 flex flex-col items-center justify-center">
+        <form
+          onSubmit={handleSignup}
+          className="md:w-96 w-80 flex flex-col items-center justify-center"
+        >
           <h2 className="text-4xl text-gray-900 font-medium">Sign Up</h2>
           <p className="text-sm text-gray-500/90 mt-3">
             Welcome ! Please sign up to continue
@@ -41,6 +64,8 @@ const Signup = () => {
             <User className="stroke-1" />
             <input
               type="text"
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
               placeholder="Enter name"
               className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
@@ -50,6 +75,8 @@ const Signup = () => {
             <Mail className="stroke-1" />
             <input
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email id"
               className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
@@ -60,6 +87,8 @@ const Signup = () => {
             <Lock className="stroke-1" />
             <input
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
@@ -74,7 +103,10 @@ const Signup = () => {
           </button>
           <p className="text-gray-500/90 text-sm mt-4">
             Already have an account?{" "}
-            <Link className="text-indigo-400 hover:underline font-semibold" to="/login">
+            <Link
+              className="text-indigo-400 hover:underline font-semibold"
+              to="/login"
+            >
               Login
             </Link>
           </p>
