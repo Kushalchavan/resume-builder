@@ -1,6 +1,7 @@
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
+import { ModeToggle } from "../mode-toggle";
 
 const Hero = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,32 +16,44 @@ const Hero = () => {
 
   return (
     <>
-      <div className="min-h-screen pb-20">
+      <div className="min-h-screen pb-20 bg-background">
         {/* Navbar */}
-        <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm">
+        <nav className="z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-40 text-sm ">
           <a href="#">
-            <h1 className="text-xl font-bold text-indigo-600 tracking-wider">EvolveCV</h1>
+            <h1 className="text-xl font-bold text-indigo-600 tracking-wider ">
+              EvolveCV
+            </h1>
           </a>
 
           <div className="hidden md:flex items-center gap-8 transition duration-500 text-slate-800">
-            <a href="#" className="hover:text-indigo-600 transition">
+            <a
+              href="#"
+              className="hover:text-indigo-600 transition text-primary"
+            >
               Home
             </a>
-            <a href="#features" className="hover:text-indigo-600 transition">
+            <a
+              href="#features"
+              className="hover:text-indigo-600 transition text-primary"
+            >
               Features
             </a>
             <a
               href="#testimonials"
-              className="hover:text-indigo-600 transition"
+              className="hover:text-indigo-600 transition text-primary"
             >
               Testimonials
             </a>
-            <a href="#" className="hover:text-indigo-600 transition">
+            <a
+              href="#"
+              className="hover:text-indigo-600 transition text-primary"
+            >
               Contact
             </a>
           </div>
 
           <div className="flex gap-2">
+            <ModeToggle />
             <Link
               to="/signup"
               className="hidden md:block px-6 py-2 bg-indigo-500 hover:bg-indigo-700 active:scale-95 transition-all rounded-full text-white"
@@ -49,7 +62,7 @@ const Hero = () => {
             </Link>
             <Link
               to="/login"
-              className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 transition-all rounded-full text-slate-700 hover:text-slate-900"
+              className="hidden md:block px-6 py-2 border active:scale-95 hover:bg-slate-50 transition-all rounded-full hover:text-slate-900 text-primary"
             >
               Login
             </Link>
@@ -75,7 +88,7 @@ const Hero = () => {
 
         {/* Mobile Menu */}
         <div
-          className={`fixed inset-0 z-[100] bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${
+          className={`fixed inset-0 z-100 bg-black/40 text-black backdrop-blur flex flex-col items-center justify-center text-lg gap-8 md:hidden transition-transform duration-300 ${
             menuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -109,7 +122,7 @@ const Hero = () => {
               <img
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200"
                 alt="user3"
-                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[1]"
+                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-1"
               />
               <img
                 src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200"
@@ -119,17 +132,17 @@ const Hero = () => {
               <img
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200"
                 alt="user2"
-                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[3]"
+                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-3"
               />
               <img
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200"
                 alt="user3"
-                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[4]"
+                className="size-8 object-cover rounded-full border-2 border-white hover:-translate-y-0.5 transition z-4"
               />
               <img
                 src="https://randomuser.me/api/portraits/men/75.jpg"
                 alt="user5"
-                className="size-8 rounded-full border-2 border-white hover:-translate-y-0.5 transition z-[5]"
+                className="size-8 rounded-full border-2 border-white hover:-translate-y-0.5 transition z-5"
               />
             </div>
 
@@ -156,20 +169,22 @@ const Hero = () => {
                     </svg>
                   ))}
               </div>
-              <p className="text-sm text-gray-700">Used by 10,000+ users</p>
+              <p className="text-sm text-muted-foreground">
+                Used by 10,000+ users
+              </p>
             </div>
           </div>
 
           {/* Headline + CTA */}
-          <h1 className="text-5xl md:text-6xl font-semibold max-w-5xl text-center mt-4 md:leading-[70px]">
+          <h1 className="text-5xl md:text-6xl font-semibold max-w-5xl text-center mt-4 md:leading-[70px] text-foreground">
             Land your dream job with{" "}
-            <span className=" bg-gradient-to-r from-indigo-700 to-indigo-600 bg-clip-text text-transparent text-nowrap">
+            <span className=" bg-linear-to-r from-indigo-700 to-indigo-300 bg-clip-text text-transparent text-nowrap">
               AI-powered{" "}
             </span>{" "}
             resumes.
           </h1>
 
-          <p className="max-w-md text-center text-base my-7">
+          <p className="max-w-md text-center text-base my-7 text-muted-foreground">
             Create, edit and download professional resumes with AI-powered
             assistance.
           </p>
@@ -184,13 +199,12 @@ const Hero = () => {
               <ArrowRight className="stroke-1 size-5" />
             </Link>
             <button className="flex items-center gap-2 border border-slate-400 hover:bg-indigo-50 transition rounded-full px-7 h-12 text-slate-700 cursor-pointer">
-                  
-                <Sparkles className="stroke-1" />
-              <span>Try Now</span>
+              <Sparkles className="stroke-1 text-primary" />
+              <span className="text-primary">Try Now</span>
             </button>
           </div>
 
-          <p className="py-6 text-slate-600 mt-14">
+          <p className="py-6  mt-14 text-muted-foreground">
             Trusting by leading brands, including
           </p>
 

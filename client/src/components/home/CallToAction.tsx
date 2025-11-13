@@ -5,10 +5,10 @@ const CallToAction = () => {
   return (
     <div
       id="cta"
-      className="border-y border-dashed border-slate-200 w-full max-w-5xl mx-auto px-10 sm:px-16 mt-30"
+      className="border-y border-dashed border-muted w-full max-w-5xl mx-auto px-10 sm:px-16 mt-30"
     >
-      <div className="flex flex-col md:flex-row text-center md:text-left items-center justify-between gap-8 px-3 md:px-10 border-x border-dashed border-slate-200 py-16 sm:py-20 -mt-10 -mb-10 w-full">
-        <p className="text-xl font-medium max-w-md text-slate-800">
+      <div className="flex flex-col md:flex-row text-center md:text-left items-center justify-between gap-8 px-3 md:px-10 border-x border-dashed border-muted py-16 sm:py-20 -mt-10 -mb-10 w-full">
+        <p className="text-xl font-medium max-w-md text-muted-foreground">
           Build a Professional Resume That Helps You stand Out and Get Hired
         </p>
         <Link

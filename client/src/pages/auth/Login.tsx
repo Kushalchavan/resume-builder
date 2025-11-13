@@ -36,7 +36,7 @@ const Login = () => {
           onSubmit={handleLogin}
           className="md:w-96 w-80 flex flex-col items-center justify-center"
         >
-          <h2 className="text-4xl text-gray-900 font-medium">Login</h2>
+          <h2 className="text-4xl text-primary font-medium">Login</h2>
           <p className="text-sm text-gray-500/90 mt-3">
             Welcome back! Please login to continue
           </p>
@@ -66,7 +66,7 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email id"
-              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              className="bg-transparent text-gray-200/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
           </div>
@@ -78,7 +78,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              className="bg-transparent text-gray-200/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
           </div>
