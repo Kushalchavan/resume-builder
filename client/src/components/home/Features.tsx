@@ -57,10 +57,10 @@ const Features = () => {
                 <circle cx="16.5" cy="7.5" r=".5" fill="currentColor" />
               </svg>
               <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
+                <h3 className="text-base font-semibold text-primary">
                   Real-Time Analytics
                 </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
+                <p className="text-sm  max-w-xs text-muted-foreground">
                   Get instant insights into your finances with live dashboards.
                 </p>
               </div>
@@ -84,10 +84,10 @@ const Features = () => {
                 <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
               </svg>
               <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
+                <h3 className="text-base font-semibold text-primary">
                   Bank-Grade Security
                 </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
+                <p className="text-sm text-muted-foreground max-w-xs">
                   End-to-end encryption, 2FA, compliance with GDPR standards.
                 </p>
               </div>
@@ -112,10 +112,10 @@ const Features = () => {
                 <path d="m7 10 5 5 5-5" />
               </svg>
               <div className="space-y-2">
-                <h3 className="text-base font-semibold text-slate-700">
+                <h3 className="text-base font-semibold text-primary">
                   Customizable Reports
                 </h3>
-                <p className="text-sm text-slate-600 max-w-xs">
+                <p className="text-sm max-w-xs text-muted-foreground">
                   Export professional, audit-ready financial reports for tax or
                   internal review.
                 </p>

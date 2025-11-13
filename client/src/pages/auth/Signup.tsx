@@ -37,14 +37,14 @@ const Signup = () => {
           onSubmit={handleSignup}
           className="md:w-96 w-80 flex flex-col items-center justify-center"
         >
-          <h2 className="text-4xl text-gray-900 font-medium">Sign Up</h2>
+          <h2 className="text-4xl text-primary font-medium">Sign Up</h2>
           <p className="text-sm text-gray-500/90 mt-3">
-            Welcome ! Please sign up to continue
+            Welcome! Please sign up to continue
           </p>
 
           <button
             type="button"
-            className="w-full mt-8 bg-gray-500/10 flex items-center justify-center h-12 rounded-full"
+            className="w-full mt-8 bg-gray-200/10 flex items-center justify-center h-12 rounded-full"
           >
             <img
               src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleLogo.svg"
@@ -67,7 +67,7 @@ const Signup = () => {
               value={username}
               onChange={(e) => setUserName(e.target.value)}
               placeholder="Enter name"
-              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              className="bg-transparent text-gray-200/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
           </div>
@@ -78,7 +78,7 @@ const Signup = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email id"
-              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              className="bg-transparent text-gray-200/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
           </div>
@@ -90,7 +90,7 @@ const Signup = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
-              className="bg-transparent text-gray-500/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
+              className="bg-transparent text-gray-200/80 placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
           </div>
