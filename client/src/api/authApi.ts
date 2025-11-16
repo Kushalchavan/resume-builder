@@ -15,3 +15,4 @@ interface LoginData {
 export const signupUser = (data: SignupData) => axiosInstance.post("/auth/signup", data);
 export const loginUser = (data: LoginData) => axiosInstance.post("/auth/login", data);
 export const currentUser = () => axiosInstance.get("/auth/check-auth");
+export const logoutUser = () => axiosInstance.post("/auth/logout");

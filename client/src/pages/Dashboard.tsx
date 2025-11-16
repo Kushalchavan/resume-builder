@@ -2,7 +2,7 @@ import { CloudUpload, Plus } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { Card } from "../components/ui/card";
 import { useState } from "react";
-import CreateResumeModal from "../components/modals/createResumeModal";
+import CreateResumeModal from "../components/modals/CreateResumeModal";
 import UploadResumeModal from "../components/modals/UploadResumeModal";
 
 const Dashboard = () => {

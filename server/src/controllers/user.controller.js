@@ -40,10 +40,10 @@ export const login = async (req, res) => {
     }
 
     const user = await User.findOne({ email });
-    if(!user) {
-      return res.status(401).json({message: "Invalid credentials"});
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-    
+
     const token = generateToken(user._id, res);
 
     res.status(200).json({ _id: user._id, email: user.email, token });
@@ -55,6 +55,15 @@ export const login = async (req, res) => {
 export const checkAuth = async (req, res) => {
   try {
     res.status(200).json(req.user);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
