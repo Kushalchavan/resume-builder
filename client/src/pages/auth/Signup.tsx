@@ -77,7 +77,7 @@ const Signup = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email id"
+              placeholder="Enter email"
               className="bg-transparent text-muted-foreground placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
@@ -89,7 +89,7 @@ const Signup = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
+              placeholder="Enter password"
               className="bg-transparent text-muted-foreground placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />

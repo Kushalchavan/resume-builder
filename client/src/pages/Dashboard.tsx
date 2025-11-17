@@ -29,7 +29,7 @@ const Dashboard = () => {
           </Card>
 
           <Card
-          onClick={() => setShowUploadResume(true)}
+            onClick={() => setShowUploadResume(true)}
             className="w-full md:w-55 md:h-40 rounded-md flex flex-col items-center justify-center gap-2 cursor-pointer hover:shadow-md 
       bg-linear-to-tr from-blue-100/10 to-blue-300 hover:to-blue-400 
       dark:from-blue-900/40 dark:to-blue-800 hover:dark:to-blue-700 
