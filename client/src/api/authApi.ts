@@ -1,18 +1,29 @@
 import axiosInstance from "./api";
 
-interface SignupData{
-    username: string;
-    email: string;
-    password: string;
+interface SignupData {
+  username: string;
+  email: string;
+  password: string;
 }
 
 interface LoginData {
-    email: string;
-    password: string;
+  email: string;
+  password: string;
 }
 
-
-export const signupUser = (data: SignupData) => axiosInstance.post("/auth/signup", data);
-export const loginUser = (data: LoginData) => axiosInstance.post("/auth/login", data);
-export const currentUser = () => axiosInstance.get("/auth/check-auth");
-export const logoutUser = () => axiosInstance.post("/auth/logout");
+export const signupUser = async (data: SignupData) => {
+  const res = await axiosInstance.post("/auth/signup", data);
+  return res.data;
+};
+export const loginUser = async (data: LoginData) => {
+  const res = await axiosInstance.post("/auth/login", data);
+  return res.data;
+};
+export const currentUser = async () => {
+  const res = await axiosInstance.get("/auth/check-auth");
+  return res.data;
+};
+export const logoutUser = async () => {
+  const res = await axiosInstance.post("/auth/logout");
+  return res.data;
+};

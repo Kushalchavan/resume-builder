@@ -1,20 +1,28 @@
 import { Lock, Mail, User } from "lucide-react";
-import { useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import { signupUser } from "../../api/authApi";
 import { toast } from "sonner";
+import type z from "zod";
+import { signupSchema } from "../../schemas/authSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+type SignupFormInputs = z.infer<typeof signupSchema>;
 
 const Signup = () => {
-  const [username, setUserName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignupFormInputs>({
+    resolver: zodResolver(signupSchema),
+  });
 
-  const handleSignup = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSignup = async (data: SignupFormInputs) => {
     try {
-      await signupUser({ username, email, password });
-      navigate("/dashbaord");
+      await signupUser(data);
+      navigate("/dashboard");
       toast.success("Signup successfully");
     } catch (error) {
       console.error(error);
@@ -34,7 +42,7 @@ const Signup = () => {
 
       <div className="w-full flex flex-col items-center justify-center">
         <form
-          onSubmit={handleSignup}
+          onSubmit={handleSubmit(handleSignup)}
           className="md:w-96 w-80 flex flex-col items-center justify-center"
         >
           <h2 className="text-4xl text-primary font-medium">Sign Up</h2>
@@ -64,35 +72,41 @@ const Signup = () => {
             <User className="stroke-1" />
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUserName(e.target.value)}
+              {...register("username")}
               placeholder="Enter name"
               className="bg-transparent text-muted-foreground placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
+            {errors.username && (
+              <p className="text-xs text-red-500">{errors.username.message}</p>
+            )}
           </div>
           <div className="flex mt-6 items-center w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
             <Mail className="stroke-1" />
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
               placeholder="Enter email"
               className="bg-transparent text-muted-foreground placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
+            {errors.email && (
+              <p className="text-xs text-red-500">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="flex items-center mt-6 w-full bg-transparent border border-gray-300/60 h-12 rounded-full overflow-hidden pl-6 gap-2">
             <Lock className="stroke-1" />
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
               placeholder="Enter password"
               className="bg-transparent text-muted-foreground placeholder-gray-500/80 outline-none text-sm w-full h-full"
               required
             />
+            {errors.password && (
+              <p className="text-xs text-red-500">{errors.password.message}</p>
+            )}
           </div>
 
           <button
