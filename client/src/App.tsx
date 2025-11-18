@@ -1,10 +1,11 @@
-import { BrowserRouter, Routes, Route } from "react-router";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Signup from "./pages/auth/Signup";
 import Login from "./pages/auth/Login";
 import Dashboard from "./pages/Dashboard";
 import { Toaster } from "./components/ui/sonner";
 import { ThemeProvider } from "./components/theme-provider";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -14,7 +15,14 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
         <Toaster />
       </ThemeProvider>
