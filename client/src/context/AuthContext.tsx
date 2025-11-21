@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { currentUser, logoutUser } from "../api/authApi";
+import { currentUser, loginUser, logoutUser } from "../api/authApi";
 import { setupAxiosInterceptors } from "../api/interceptors";
 
 interface User {
@@ -13,6 +13,8 @@ interface AuthContextType {
   loading: boolean;
   setUser: (user: User | null) => void;
   logout: () => Promise<void>;
+  login : (data: any) => Promise<void>;
+  signup: (data: any) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -41,6 +43,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
+  const login = async (data) => {
+  const res = await loginUser(data);
+  setUser(res.user);
+};
+
   const logout = async () => {
     try {
       await logoutUser();
@@ -51,7 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, setUser, logout }}>
+    <AuthContext.Provider value={{ user, loading, setUser, logout, login }}>
       {children}
     </AuthContext.Provider>
   );

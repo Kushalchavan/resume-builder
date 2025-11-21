@@ -21,9 +21,11 @@ export const signup = async (req, res) => {
     const token = generateToken(newUser._id, res);
 
     res.status(201).json({
-      _id: newUser._id,
-      username: newUser.username,
-      email: newUser.email,
+      user: {
+        _id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+      },
       token,
       message: "User created successfully",
     });
@@ -46,7 +48,13 @@ export const login = async (req, res) => {
 
     const token = generateToken(user._id, res);
 
-    res.status(200).json({ _id: user._id, email: user.email, token });
+    res.status(200).json({
+      user: {
+        _id: user._id,
+        email: user.email,
+      },
+      token,
+    });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
@@ -54,7 +62,7 @@ export const login = async (req, res) => {
 
 export const checkAuth = async (req, res) => {
   try {
-    res.status(200).json(req.user);
+    res.status(200).json({ user: req.user });
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
