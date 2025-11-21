@@ -1,15 +1,16 @@
 import { Lock, Mail } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../api/authApi";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 import { loginSchema } from "../../schemas/authSchema";
+import { useAuth } from "../../context/AuthContext";
 
 type LoginformInputs = z.infer<typeof loginSchema>;
 
 const Login = () => {
+  const {login} = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -21,7 +22,7 @@ const Login = () => {
 
   const handleLogin = async (data: LoginformInputs) => {
     try {
-      await loginUser(data);
+      await login(data);
       navigate("/dashboard");
       toast.success("Login successful");
     } catch (error) {
