@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { currentUser, loginUser, logoutUser } from "../api/authApi";
+import { currentUser, loginUser, logoutUser, signupUser } from "../api/authApi";
 import { setupAxiosInterceptors } from "../api/interceptors";
 
 interface User {
@@ -48,6 +48,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   setUser(res.user);
 };
 
+const signup = async(data) => {
+  const res = await signupUser(data);
+  setUser(res.user);
+}
+
   const logout = async () => {
     try {
       await logoutUser();
@@ -58,7 +63,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, setUser, logout, login }}>
+    <AuthContext.Provider value={{ user, loading, setUser, logout, login, signup }}>
       {children}
     </AuthContext.Provider>
   );
