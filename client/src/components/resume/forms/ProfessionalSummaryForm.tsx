@@ -40,7 +40,7 @@ const ProfessionalSummaryForm = ({
         <button
           disabled={isGenerating}
           onClick={generateSummary}
-          className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50"
+          className="flex items-center gap-2 px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50 cursor-pointer"
         >
           {isGenerating ? (
             <Loader2 className="size-4 animate-spin" />

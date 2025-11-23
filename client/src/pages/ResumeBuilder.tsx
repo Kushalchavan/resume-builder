@@ -10,6 +10,7 @@ import ExperienceForm from "../components/resume/forms/ExperienceForm";
 import EducationForm from "../components/resume/forms/EducationForm";
 import ProjectForm from "../components/resume/forms/ProjectForm";
 import SkillsForm from "../components/resume/forms/SkillsForm";
+import { toast } from "sonner";
 
 type Experience = {
   company: string;
@@ -83,9 +84,9 @@ const ResumeBuilder = () => {
           <div className="relative lg:col-span-5 rounded-lg overflow-hidden">
             <div className="rounded-lg shadow-sm border border-gray-200 p-6 pt-1">
               {/* progress bar using active section index */}
-              <hr className="absolute top-0 left-0 right-0 border-2 border-muted-foreground" />
+              <hr className="absolute top-0 left-0 right-0 border-2 border-muted" />
               <hr
-                className="absolute top-0 left-1 bg-linear-to-r from-indigo-500 to-indigo-600 border-none transition-all duration-200"
+                className="absolute top-0 left-0 h-1 bg-linear-to-r from-indigo-500 to-indigo-600 border-none transition-all duration-200"
                 style={{
                   width: `${
                     (activeSectionIndex * 100) / (sections.length - 1)
@@ -209,6 +210,14 @@ const ResumeBuilder = () => {
                   />
                 )}
               </div>
+              <button
+                onClick={() => {
+                  toast.promise(saveResume, { loading: "Saving..." });
+                }}
+                className="bg-linear-to-br from-indigo-100 to-indigo-200 ring-indigo-300 text-indigo-600 ring:hover:indigo-400 transition-all rounded-md px-6 py-2 mt-6 text-sm cursor-pointer"
+              >
+                Save Changes
+              </button>
             </div>
           </div>
 

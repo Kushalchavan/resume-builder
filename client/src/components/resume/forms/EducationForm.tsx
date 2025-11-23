@@ -1,4 +1,5 @@
 import { GraduationCap, Plus, Trash2 } from "lucide-react";
+import { Input } from "../../ui/input";
 
 export type Education = {
   institution: string;
@@ -52,7 +53,7 @@ const EducationForm = ({ data, onChange }: EducationFormProps) => {
 
         <button
           onClick={addEducation}
-          className="flex items-center gap-2 px-3 py-1 text-sm bg-green-100 text-green-700 rounded- hover:bg-green-200 rounded-lg transition-colors"
+          className="flex items-center gap-2 px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded- hover:bg-blue-200 rounded-lg transition-colors"
         >
           <Plus className="size-4" />
           Add Education
@@ -82,7 +83,7 @@ const EducationForm = ({ data, onChange }: EducationFormProps) => {
                 </button>
               </div>
               <div className="grid md:grid-cols-2 gap-3">
-                <input
+                <Input
                   type="text"
                   placeholder="Institute Name"
                   className="px-3 py-2 text-sm"
@@ -92,7 +93,7 @@ const EducationForm = ({ data, onChange }: EducationFormProps) => {
                   }
                 />
 
-                <input
+                <Input
                   type="text"
                   placeholder="Degree (e.g., Bachelor's, Master's)"
                   className="px-3 py-2 text-sm"
@@ -102,7 +103,7 @@ const EducationForm = ({ data, onChange }: EducationFormProps) => {
                   }
                 />
 
-                <input
+                <Input
                   type="text"
                   placeholder="Field of Study"
                   className="px-3 py-2 text-sm"
@@ -112,7 +113,7 @@ const EducationForm = ({ data, onChange }: EducationFormProps) => {
                   }
                 />
 
-                <input
+                <Input
                   type="month"
                   className="px-3 py-2 text-sm "
                   value={education.graduation_date || ""}
@@ -122,7 +123,7 @@ const EducationForm = ({ data, onChange }: EducationFormProps) => {
                 />
               </div>
 
-              <input
+              <Input
                 type="text"
                 placeholder="GPA (optional)"
                 value={education.gpa || ""}

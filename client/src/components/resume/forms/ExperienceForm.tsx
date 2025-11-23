@@ -1,14 +1,8 @@
 import { Briefcase, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 import { useState } from "react";
-
-type Experience = {
-  company: string;
-  position: string;
-  start_date: string;
-  end_date: string;
-  description: string;
-  is_current: boolean;
-};
+import { Textarea } from "../../ui/textarea";
+import { Input } from "../../ui/input";
+import type { Experience } from "../../../types/resume";
 
 type ExperienceFormProps = {
   data: Experience[];
@@ -32,7 +26,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
 
   const removeExperience = (index: number) => {};
 
-  const updateExperience = (index: number, field: keyof Experience, value: string) => {};
+  const updateExperience = (index: number, field: keyof Experience, value: string | boolean) => {};
 
   const generateDescription = async (index: number) => {};
 
@@ -48,7 +42,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
 
         <button
           onClick={addExperience}
-          className="flex items-center gap-2 px-3 py-1 text-sm bg-green-100 text-green-700 rounded- hover:bg-green-200 rounded-lg transition-colors"
+          className="flex items-center gap-2 px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded- hover:bg-blue-200 rounded-lg transition-colors cursor-pointer"
         >
           <Plus className="size-4" />
           Add Experience
@@ -78,7 +72,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
                 </button>
               </div>
               <div className="grid md:grid-cols-2 gap-3">
-                <input
+                <Input
                   type="text"
                   placeholder="Company Name"
                   className="px-3 py-2 text-sm rounded-lg"
@@ -88,7 +82,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
                   }
                 />
 
-                <input
+                <Input
                   type="text"
                   placeholder="Job Title"
                   className="px-3 py-2 text-sm rounded-lg"
@@ -98,7 +92,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
                   }
                 />
 
-                <input
+                <Input
                   type="month"
                   className="px-3 py-2 text-sm rounded-lg"
                   value={experience.start_date || ""}
@@ -107,7 +101,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
                   }
                 />
 
-                <input
+                <Input
                   type="month"
                   className="px-3 py-2 text-sm rounded-lg disabled:bg-gray-100"
                   value={experience.end_date || ""}
@@ -158,7 +152,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
                     Enhance with AI
                   </button>
                 </div>
-                <textarea
+                <Textarea
                   value={experience.description || ""}
                   onChange={(e) =>
                     updateExperience(index, "description", e.target.value)
