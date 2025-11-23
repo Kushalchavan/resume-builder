@@ -1,5 +1,4 @@
 import { CloudUpload, Plus } from "lucide-react";
-import Navbar from "../components/Navbar";
 import { Card } from "../components/ui/card";
 import { useState } from "react";
 import CreateResumeModal from "../components/modals/CreateResumeModal";
@@ -11,7 +10,6 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Navbar />
       <div className="mt-4 py-4 px-6 md:px-16 lg:px-24 xl:px-40">
         <h4 className="mb-6">Start Creating</h4>
 
