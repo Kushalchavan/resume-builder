@@ -1,16 +1,11 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { Spinner } from "./ui/spinner";
+import Loader from "./Loader";
 
 const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
   const { user, loading } = useAuth();
 
-  if (loading)
-    return (
-      <p className="h-screen w-screen flex justify-center items-center">
-        <Spinner />
-      </p>
-    );
+  if (loading) return <Loader />;
 
   return user ? children : <Navigate to="/login" replace />;
 };
