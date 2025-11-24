@@ -1,6 +1,14 @@
-import { ArrowLeftIcon, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router";
+import {
+  ArrowLeftIcon,
+  ChevronLeft,
+  ChevronRight,
+  DownloadIcon,
+  EyeIcon,
+  EyeOffIcon,
+  Share2Icon,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router";
 import { sections } from "../constants/data";
 import TemplateSelector from "../components/resume/TemplateSelector";
 import ColorPicker from "../components/resume/ColorPicker";
@@ -11,50 +19,25 @@ import EducationForm from "../components/resume/forms/EducationForm";
 import ProjectForm from "../components/resume/forms/ProjectForm";
 import SkillsForm from "../components/resume/forms/SkillsForm";
 import { toast } from "sonner";
-
-type Experience = {
-  company: string;
-  position: string;
-  start_date: string;
-  end_date: string;
-  description: string;
-  is_current: boolean;
-};
-
-export type Education = {
-  institution: string;
-  degree: string;
-  field: string;
-  graduation_date: string;
-  gpa?: string;
-};
-
-export type Project = {
-  name: string;
-  type: string;
-  description: string;
-};
-
-type ResumeData = {
-  _id: string;
-  title: string;
-  personal_info: {};
-  professional_summary: string;
-  experience: Experience[];
-  education: Education[];
-  project: Project[];
-  skills: string[];
-  template: string;
-  accent_color: string;
-  public: boolean;
-};
+import ResumePreview from "../components/resume/ResumePreview";
+import type { ResumeData } from "../types/resume";
+import { getResumeById, updateResume } from "../api/resumeApi";
 
 const ResumeBuilder = () => {
   const [activeSectionIndex, setActiveSectionIndex] = useState<number>(0);
   const [resumeData, setResumeData] = useState<ResumeData>({
     _id: "",
     title: "",
-    personal_info: {},
+    personal_info: {
+      full_name: "",
+      email: "",
+      phone: "",
+      location: "",
+      linkedin: "",
+      website: "",
+      profession: "",
+      image: "",
+    },
     professional_summary: "",
     experience: [],
     education: [],
@@ -65,8 +48,77 @@ const ResumeBuilder = () => {
     public: false,
   });
   const [removeBackground, setRemoveBackground] = useState<boolean>(false);
+  const {resumeId} = useParams();
 
   const activeSection = sections[activeSectionIndex];
+
+  const loadExistingResume = async() => {
+    try {
+      const res = await getResumeById(resumeId);
+
+      if(res.data) {
+        setResumeData(res.data);
+        document.title = res.data.title
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    loadExistingResume();
+  }, [])
+
+  const changeResumeVisibility = async() => {
+    try {
+      const res=  await updateResume()
+    } catch (error) {
+      console.log("Error saving resume: ", error);
+    }
+  };
+
+  const handleShare = () => {
+     const frontendUrl = window.location.origin;
+  const resumeUrl = `${frontendUrl}/view/${resumeId}`;
+
+  if (navigator.share) {
+    navigator.share({ url: resumeUrl, text: "My Resume" });
+  } else {
+    toast.warning("Share not supported on this browser.");
+  }
+  };
+
+  const downloadResume = () => {
+    window.print();
+  };
+
+ const saveResume = async () => {
+  try {
+    let updatedResumeData = structuredClone(resumeData);
+
+    if (typeof resumeData.personal_info.image === "object") {
+      delete updatedResumeData.personal_info.image;
+    }
+
+    const formData = new FormData();
+    formData.append("resumeId", resumeId);
+    formData.append("resumeData", JSON.stringify(updatedResumeData));
+
+    if (removeBackground) formData.append("removeBackground", "yes");
+
+    if (typeof resumeData.personal_info.image === "object") {
+      formData.append("image", resumeData.personal_info.image);
+    }
+
+    const { data } = await updateResume(resumeId, formData);
+
+    setResumeData(data.resume);
+    toast.success(data.message);
+  } catch (error) {
+    console.error("Error Saving resume: ", error);
+  }
+};
+
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4 py-6">
@@ -222,7 +274,46 @@ const ResumeBuilder = () => {
           </div>
 
           {/* Right Panel */}
-          <div></div>
+          <div className="lg:col-span-7 max-lg:mt-6">
+            <div className="relative w-full">
+              <div className="absolute bottom-3 left-0 right-0 flex items-center justify-end gap-2">
+                {resumeData.public && (
+                  <button
+                    onClick={handleShare}
+                    className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-br from-blue-100 to-blue-200 text-blue-600 rounded-lg ring-blue-300 hover:ring transition-colors"
+                  >
+                    <Share2Icon className="size-4" /> Share
+                  </button>
+                )}
+
+                <button
+                  onClick={changeResumeVisibility}
+                  className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-br from-purple-100 to-purple-200 text-purple-600 rounded-lg ring-purple-300 hover:ring transition-colors cursor-pointer"
+                >
+                  {resumeData.public ? (
+                    <EyeIcon className="size-4" />
+                  ) : (
+                    <EyeOffIcon className="size-4" />
+                  )}
+                  {resumeData.public ? "Public" : "Private"}
+                </button>
+
+                <button
+                  onClick={downloadResume}
+                  className="flex items-center p-2 px-4 gap-2 text-xs bg-linear-to-br from-blue-100 to-blue-200 text-blue-600 rounded-lg ring-blue-300 hover:ring transition-colors cursor-pointer"
+                >
+                  <DownloadIcon className="size-4" /> Download
+                </button>
+              </div>
+            </div>
+
+            {/* resume preview */}
+            <ResumePreview
+              data={resumeData}
+              template={resumeData.template}
+              accentColor={resumeData.accent_color}
+            />
+          </div>
         </div>
       </div>
     </div>

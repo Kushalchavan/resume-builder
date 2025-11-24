@@ -85,3 +85,4 @@ export const fields = [
   { key: "linkedin", label: "LinkedIn Profile", icon: Linkedin, type: "url" },
   { key: "website", label: "Personal Website", icon: Globe, type: "url" },
 ];
+

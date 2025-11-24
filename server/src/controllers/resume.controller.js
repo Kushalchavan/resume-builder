@@ -9,13 +9,29 @@ export const createResume = async (req, res) => {
 
     const newResume = await Resume.create({ userId, title });
 
-    return res
-      .status(201)
-      .json({ message: "Resume created successfully", resume: newResume });
+    return res.status(201).json({
+      message: "Resume created successfully",
+      resume: newResume,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internel server error", error: error.message });
+    return res.status(500).json({
+      message: "Internel server error",
+      error: error.message,
+    });
+  }
+};
+
+export const getAllResumes = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const resumes = await Resume.find({ userId }).sort({ createdAt: -1 });
+
+    return res.status(200).json({ resumes });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internel server error",
+      error: error.message,
+    });
   }
 };
 
@@ -24,13 +40,14 @@ export const deleteResume = async (req, res) => {
     const userId = req.userId;
     const { resumeId } = req.params;
 
-    await Resume.findByIdAndDelete({ userId, _id: resumeId });
+    await Resume.findOneAndDelete({ userId, _id: resumeId });
 
     return res.status(200).json({ message: "Resume deleted successfully" });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internel server error", error: error.message });
+    return res.status(500).json({
+      message: "Internel server error",
+      error: error.message,
+    });
   }
 };
 
@@ -46,15 +63,17 @@ export const getResumeById = async (req, res) => {
 
     return res.status(200).json({ resume });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internel server error", error: error.message });
+    return res.status(500).json({
+      message: "Internel server error",
+      error: error.message,
+    });
   }
 };
 
 export const getPublicResumeById = async (req, res) => {
   try {
     const { resumeId } = req.params;
+
     const resume = await Resume.findOne({ public: true, _id: resumeId });
     if (!resume) {
       return res.status(400).json({ message: "Resume not found" });
@@ -62,25 +81,28 @@ export const getPublicResumeById = async (req, res) => {
 
     return res.status(200).json({ resume });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internel server error", error: error.message });
+    return res.status(500).json({
+      message: "Internel server error",
+      error: error.message,
+    });
   }
 };
 
 export const updateResume = async (req, res) => {
   try {
     const userId = req.userId;
-    const { resumeId, resumeData, removeBackground } = req.body;
+    const { resumeId } = req.params;
+    const { resumeData, removeBackground } = req.body;
     const image = req.file;
 
     let resumeDataCopy;
     if (typeof resumeData === "string") {
-      resumeDataCopy = await JSON.parse(resumeData);
+      resumeDataCopy = JSON.parse(resumeData);
     } else {
       resumeDataCopy = structuredClone(resumeData);
     }
 
+    // If image uploaded
     if (image) {
       const imageBufferData = fs.createReadStream(image.path);
 
@@ -90,23 +112,28 @@ export const updateResume = async (req, res) => {
         folder: "user-resumes",
         transformation: {
           pre:
-            "w-300, h-300, fo-face, z-0.75" +
-            (removeBackground ? "e-bgremove" : ""),
+            "w-300,h-300,fo-face,z-0.75" +
+            (removeBackground ? ",e-bgremove" : ""),
         },
       });
 
       resumeDataCopy.personal_info.image = response.url;
     }
-    const resume = await Resume.findByIdAndUpdate(
+
+    const resume = await Resume.findOneAndUpdate(
       { userId, _id: resumeId },
-      resumeDataCopy,
+      { $set: resumeDataCopy },
       { new: true }
     );
 
-    return res.status(200).json({ message: "Saved successfully", resume });
+    return res.status(200).json({
+      message: "Saved successfully",
+      resume,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Internel server error", error: error.message });
+    return res.status(500).json({
+      message: "Internel server error",
+      error: error.message,
+    });
   }
 };

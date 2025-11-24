@@ -7,6 +7,7 @@ export interface PersonalInfo {
   website?: string;
   profession?: string;
   image?: string;
+  [key: string]: any;
 }
 
 export interface Experience {
@@ -24,7 +25,7 @@ export interface Education {
   institution: string;
   start_date: string;
   end_date: string;
-  graduation_date?: string;
+  graduation_date: string;
   gpa?: string;
 }
 
@@ -46,4 +47,6 @@ export interface ResumeData {
   template: string;
   accent_color: string;
   public: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
