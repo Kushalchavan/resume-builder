@@ -20,16 +20,16 @@ const App = () => {
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
 
-            {/* <Route
+            <Route
               element={
                 <ProtectedRoute>
                   <Layout />
                 </ProtectedRoute>
               }
-            > */}
+            >
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="builder/:resumeId" element={<ResumeBuilder />} />
-            {/* </Route> */}
+            </Route>
           </Routes>
           <Toaster />
         </ThemeProvider>
