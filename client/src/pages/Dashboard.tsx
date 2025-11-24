@@ -1,12 +1,100 @@
-import { CloudUpload, Plus } from "lucide-react";
+import {
+  CloudUpload,
+  FilePenLineIcon,
+  PencilIcon,
+  Plus,
+  TrashIcon,
+} from "lucide-react";
 import { Card } from "../components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateResumeModal from "../components/modals/CreateResumeModal";
 import UploadResumeModal from "../components/modals/UploadResumeModal";
+import { useNavigate } from "react-router";
+import EditResumeModel from "../components/modals/EditResumeModel";
+import {
+  createResume,
+  deleteResume,
+  getAllResumes,
+  updateResumeTitle,
+  uploadResume,
+} from "../api/resumeApi";
+import type { ResumeData } from "../types/resume";
+
+const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
 
 const Dashboard = () => {
   const [showCreateResume, setShowCreateResume] = useState<boolean>(false);
   const [showUploadResume, setShowUploadResume] = useState<boolean>(false);
+  const [allResumes, setAllResumes] = useState<ResumeData[]>([]);
+  const [title, setTitle] = useState<string>("");
+  const [editResumeId, setEditResumeId] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
+
+  const loadAllResumes = async () => {
+    try {
+      setIsLoading(true);
+      const res = await getAllResumes();
+      setAllResumes(res.resumes || []);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadAllResumes();
+  }, []);
+
+  const createNewResume = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await createResume(title);
+      setShowCreateResume(false);
+      setTitle("");
+      loadAllResumes();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpload = async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append("pdf", file);
+      formData.append("title", title);
+
+      await uploadResume(formData); // API call
+
+      setShowUploadResume(false);
+      setTitle("");
+      loadAllResumes();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const editTitle = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await updateResumeTitle(editResumeId, title);
+      setEditResumeId("");
+      setTitle("");
+      loadAllResumes();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (resumeId: string) => {
+    try {
+      await deleteResume(resumeId);
+      loadAllResumes();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -41,14 +129,87 @@ const Dashboard = () => {
             <span>Upload Existing</span>
           </Card>
         </div>
+
+        <hr className="border-slate-300 my-6 sm:w-[305px]" />
+
+        <div className="grid grid-cols2 sm:flex flex-wrap gap-4">
+          {allResumes.map((resume, index) => {
+            const baseColor = colors[index % colors.length];
+
+            return (
+              <button
+                onClick={() => navigate(`/builder/${resume._id}`)}
+                key={index}
+                className="relative w-full sm:max-w-36 h-48 flex flex-col items-center justify-center rounded-lg gap-2 border group hover:shadow-lg transition-all duration-300 cursor-pointer"
+                style={{
+                  background: `linear-gradient(135deg, ${baseColor}10, ${baseColor}40)`,
+                  borderColor: baseColor + "40",
+                }}
+              >
+                <FilePenLineIcon
+                  className="size-7 group-hover:scale-105 transition-all"
+                  style={{ color: baseColor }}
+                />
+                <p
+                  className="text-sm group-hover:scale-105 transition-all px-2 text-center"
+                  style={{ color: baseColor }}
+                >
+                  {resume.title}
+                </p>
+                <p
+                  className="absolute bottom-1 text-[11px] text-slate-400 group-hover:text-slate-500 transition-all duration-300 px-2 text-center"
+                  style={{ color: baseColor + "90" }}
+                >
+                  Updated on {new Date(resume.updatedAt).toLocaleDateString()}
+                </p>
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="absolute top-1 right-1 group-hover:flex items-center hidden"
+                >
+                  <TrashIcon
+                    className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors"
+                    onClick={() => handleDelete(resume._id)}
+                  />
+                  <PencilIcon
+                    className="size-7 p-1.5 hover:bg-white/50 rounded text-slate-700 transition-colors"
+                    onClick={() => {
+                      setEditResumeId(resume._id);
+                      setTitle(resume.title);
+                    }}
+                  />
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {showCreateResume && (
-        <CreateResumeModal setShowCreateResume={setShowCreateResume} />
+        <CreateResumeModal
+          setShowCreateResume={setShowCreateResume}
+          title={title}
+          setTitle={setTitle}
+          handleSubmit={createNewResume}
+        />
       )}
 
       {showUploadResume && (
-        <UploadResumeModal setShowUploadResume={setShowUploadResume} />
+        <UploadResumeModal
+          setShowUploadResume={setShowUploadResume}
+          title={title}
+          setTitle={setTitle}
+          handleUpload={handleUpload}
+          isLoading={isLoading}
+        />
+      )}
+
+      {editResumeId && (
+        <EditResumeModel
+          setEditResumeId={setEditResumeId}
+          title={title}
+          setTitle={setTitle}
+          handleSubmit={editTitle}
+        />
       )}
     </div>
   );

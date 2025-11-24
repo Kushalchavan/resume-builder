@@ -1,17 +1,13 @@
 import { User } from "lucide-react";
 import { fields } from "../../../constants/data";
 import { Input } from "../../ui/input";
-
-type PersonalInfoData = {
-  image?: File | string;
-  [key: string]: any;
-};
+import type { PersonalInfo } from "../../../types/resume";
 
 type PersonalInfoFormProps = {
-  data: PersonalInfoData;
-  onChange: (key: string, value: any) => void;
+  data: PersonalInfo;
+  onChange: (updated: PersonalInfo) => void;
   removeBackground: boolean;
-  setRemoveBackground: React.Dispatch<React.SetStateAction<boolean>>;
+  setRemoveBackground: (value: boolean) => void;
 };
 
 const PersonalInfoForm = ({
@@ -21,7 +17,10 @@ const PersonalInfoForm = ({
   setRemoveBackground,
 }: PersonalInfoFormProps) => {
   const handleChange = (key: string, value: any) => {
-    onChange(key, value);
+    onChange({
+      ...data,
+      [key]: value,
+    });
   };
 
   return (

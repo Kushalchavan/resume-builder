@@ -1,12 +1,7 @@
 import { Plus, Trash2 } from "lucide-react";
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
-
-export type Project = {
-  name: string;
-  type: string;
-  description: string;
-};
+import type { Project } from "../../../types/resume";
 
 type ProjectFormProps = {
   data: Project[];

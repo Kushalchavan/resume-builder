@@ -1,13 +1,6 @@
 import { GraduationCap, Plus, Trash2 } from "lucide-react";
 import { Input } from "../../ui/input";
-
-export type Education = {
-  institution: string;
-  degree: string;
-  field: string;
-  graduation_date: string;
-  gpa?: string;
-};
+import type { Education } from "../../../types/resume";
 
 type EducationFormProps = {
   data: Education[];
@@ -20,6 +13,8 @@ const EducationForm = ({ data, onChange }: EducationFormProps) => {
       institution: "",
       degree: "",
       field: "",
+      start_date: "",
+      end_date: "",
       graduation_date: "",
       gpa: "",
     };

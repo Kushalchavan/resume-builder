@@ -5,7 +5,7 @@ export function setupAxiosInterceptors(onLogout: () => void) {
   // Request Interceptor
   axiosInstance.interceptors.request.use(
     (config) => {
-      // You can attach headers here later if needed
+
       return config;
     },
     (error) => {
@@ -24,7 +24,6 @@ export function setupAxiosInterceptors(onLogout: () => void) {
         originalRequest._retry = true;
 
         try {
-          // Auto logout (backend will clear cookies)
           await logoutUser();
           onLogout(); // remove user from context
         } catch (e) {
