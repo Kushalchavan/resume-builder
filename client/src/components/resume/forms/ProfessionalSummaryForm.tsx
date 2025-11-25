@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Loader2, Sparkles } from "lucide-react";
+import { toast } from "sonner";
+import { enhanceProfessionalSummary } from "../../../api/aiApi";
 
 type ProfessionalSummaryFormProps = {
   data: string;
@@ -14,16 +16,29 @@ const ProfessionalSummaryForm = ({
 }: ProfessionalSummaryFormProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const generateSummary = async () => {
+const generateSummary = async () => {
+  try {
     setIsGenerating(true);
 
-    setTimeout(() => {
-      const enhanced =
-        "Highly motivated professional with strong expertise in modern web technologies, delivering efficient solutions with a focus on scalability and user experience.";
-      onChange(enhanced);
-      setIsGenerating(false);
-    }, 1500);
-  };
+    const res = await enhanceProfessionalSummary(data);
+    const enhanced = res.enhanceContent;
+
+    onChange(enhanced);
+
+    setResumeData(prev => ({
+      ...prev,
+      professional_summary: enhanced,
+    }));
+
+    toast.success("Summary Enhanced!");
+  } catch (err) {
+    toast.error("Something went wrong");
+    console.error(err);
+  } finally {
+    setIsGenerating(false);
+  }
+};
+
 
   return (
     <div className="space-y-4">
@@ -61,7 +76,8 @@ const ProfessionalSummaryForm = ({
         />
 
         <p className="text-xs text-gray-500 mt-1">
-          Tip: Keep it concise (3–4 sentences). Focus on strengths & key achievements.
+          Tip: Keep it concise (3–4 sentences). Focus on strengths & key
+          achievements.
         </p>
       </div>
     </div>

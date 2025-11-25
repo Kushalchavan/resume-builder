@@ -14,7 +14,7 @@ const Preview = () => {
   const loadResume = async () => {
     try {
       const { data } = await axiosInstance.get(
-        "/api/resumes/public" + resumeId
+        `/api/resumes/public/${resumeId}`
       );
       setResumeData(data.resume);
     } catch (error) {

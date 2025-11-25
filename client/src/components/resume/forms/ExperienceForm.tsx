@@ -5,6 +5,7 @@ import { Input } from "../../ui/input";
 import type { Experience } from "../../../types/resume";
 import { toast } from "sonner";
 import { Label } from "../../ui/label";
+import { enhanceJobDescription } from "../../../api/aiApi";
 
 type ExperienceFormProps = {
   data: Experience[];
@@ -31,22 +32,30 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
     onChange(updated);
   };
 
-  const updateExperience = (index: number, field: keyof Experience, value: string | boolean) => {
+  const updateExperience = (
+    index: number,
+    field: keyof Experience,
+    value: string | boolean
+  ) => {
     const updated = [...data];
-    updated[index] = {...updated[index], [field] : value}
+    updated[index] = { ...updated[index], [field]: value };
     onChange(updated);
   };
 
   const generateDescription = async (index: number) => {
-     setGeneratingIndex(index);
-    const experience = data[index];
-    const prompt = `enhance this job description ${experience.description} for the position of ${experience.position} at ${experience.company}`;
+    setGeneratingIndex(index);
+
+    const exp = data[index];
+    const content = `Enhance this job description: ${exp.description}
+  for the role of ${exp.position} at ${exp.company}.`;
 
     try {
-     // api call here
-      updateExperience(index, "description", data.enhancedContent);
+      const res = await enhanceJobDescription(content);
+      updateExperience(index, "description", res.enhanceContent);
+      toast.success("AI enhanced job description!");
     } catch (error) {
-      toast.error(error);
+      toast.error("Failed to enhance");
+      console.error(error);
     } finally {
       setGeneratingIndex(-1);
     }
@@ -164,7 +173,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
                       !experience.company
                     }
                     onClick={() => generateDescription(index)}
-                    className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50"
+                    className="flex items-center gap-1 px-2 py-1 text-xs bg-purple-300 text-purple-900 rounded hover:bg-purple-300/40 transition-colors disabled:opacity-50 cursor-pointer"
                   >
                     {generatingIndex === index ? (
                       <Loader2 className="size-3 animate-spin" />

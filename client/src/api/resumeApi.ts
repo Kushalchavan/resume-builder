@@ -1,4 +1,3 @@
-import type { ResumeData } from "../types/resume";
 import axiosInstance from "./api";
 
 export const createResume = async (title: string) => {
