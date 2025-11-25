@@ -6,7 +6,7 @@ export interface PersonalInfo {
   linkedin?: string;
   website?: string;
   profession?: string;
-  image?: string;
+  image?: string | File | null;
   [key: string]: any;
 }
 
@@ -47,6 +47,6 @@ export interface ResumeData {
   template: string;
   accent_color: string;
   public: boolean;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

@@ -1,4 +1,5 @@
 import { XIcon } from "lucide-react";
+import { Input } from "../ui/input";
 
 interface EditResumeModelProps {
   setEditResumeId: React.Dispatch<React.SetStateAction<string>>;
@@ -21,10 +22,10 @@ const EditResumeModel = ({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative bg-slate-50 border shadow-md rounded-lg w-full max-w-sm p-6"
+        className="relative bg-background border shadow-md rounded-lg w-full max-w-sm p-6"
       >
         <h2 className="text-xl font-bold mb-4">Edit Resume Title</h2>
-        <input
+        <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           type="text"
@@ -32,7 +33,7 @@ const EditResumeModel = ({
           className="w-full px-4 py-2 flex items-center justify-center"
           required
         />
-        <button className="mt-4 w-full py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors">
+        <button className="mt-4 w-full py-2 bg-indigo-600  text-white rounded hover:bg-indigo-700 transition-colors cursor-pointer">
           Update
         </button>
         <XIcon

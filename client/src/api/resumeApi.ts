@@ -16,13 +16,8 @@ export const getResumeById = async (resumeId: string) => {
   return res.data;
 };
 
-export const getPublicResumeById = async (
-  resumeId: string,
-  isPublic: boolean
-) => {
-  const res = await axiosInstance.patch(`/resumes/public/${resumeId}`, {
-    public: isPublic,
-  });
+export const getPublicResumeById = async (resumeId: string) => {
+  const res = await axiosInstance.get(`/resumes/public/${resumeId}`);
   return res.data;
 };
 
@@ -36,24 +31,14 @@ export const updateResumeTitle = async (id: string, title: string) => {
 
 export const updateResume = async (
   resumeId: string,
-  resumeData: ResumeData,
-  image?: File | null,
-  removeBackground?: boolean
+  formData: FormData
 ) => {
-  const formData = new FormData();
-
-  formData.append("resumeId", resumeId);
-  formData.append("resumeData", JSON.stringify(resumeData));
-
-  if (image) formData.append("image", image);
-  if (removeBackground !== undefined)
-    formData.append("removeBackground", String(removeBackground));
-
   const res = await axiosInstance.put(`/resumes/update/${resumeId}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   return res.data;
 };
+
 
 export const uploadResume = async (formData: FormData) => {
   const res = await axiosInstance.post("/resumes/upload", formData, {

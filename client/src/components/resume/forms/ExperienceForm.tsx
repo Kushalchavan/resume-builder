@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Textarea } from "../../ui/textarea";
 import { Input } from "../../ui/input";
 import type { Experience } from "../../../types/resume";
+import { toast } from "sonner";
+import { Label } from "../../ui/label";
 
 type ExperienceFormProps = {
   data: Experience[];
@@ -24,11 +26,31 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
     onChange([...data, newExperience]);
   };
 
-  const removeExperience = (index: number) => {};
+  const removeExperience = (index: number) => {
+    const updated = data.filter((_, i) => i !== index);
+    onChange(updated);
+  };
 
-  const updateExperience = (index: number, field: keyof Experience, value: string | boolean) => {};
+  const updateExperience = (index: number, field: keyof Experience, value: string | boolean) => {
+    const updated = [...data];
+    updated[index] = {...updated[index], [field] : value}
+    onChange(updated);
+  };
 
-  const generateDescription = async (index: number) => {};
+  const generateDescription = async (index: number) => {
+     setGeneratingIndex(index);
+    const experience = data[index];
+    const prompt = `enhance this job description ${experience.description} for the position of ${experience.position} at ${experience.company}`;
+
+    try {
+     // api call here
+      updateExperience(index, "description", data.enhancedContent);
+    } catch (error) {
+      toast.error(error);
+    } finally {
+      setGeneratingIndex(-1);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -112,7 +134,7 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
                 />
               </div>
 
-              <label className="flex items-center gap-2">
+              <Label className="flex items-center gap-2">
                 <input
                   type="checkbox"
                   checked={experience.is_current || false}
@@ -123,18 +145,18 @@ const ExperienceForm = ({ data, onChange }: ExperienceFormProps) => {
                       e.target.checked ? true : false
                     );
                   }}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
                 />
-                <span className="text-sm text-gray-700">
+                <span className="text-sm text-muted-foreground">
                   Currently working here
                 </span>
-              </label>
+              </Label>
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium text-gray-700">
+                  <Label className="text-sm font-medium text-muted-foreground">
                     Job Description
-                  </label>
+                  </Label>
                   <button
                     disabled={
                       generatingIndex === index ||

@@ -19,6 +19,7 @@ import {
   uploadResume,
 } from "../api/resumeApi";
 import type { ResumeData } from "../types/resume";
+import { toast } from "sonner";
 
 const colors = ["#9333ea", "#d97706", "#dc2626", "#0284c7", "#16a34a"];
 
@@ -50,10 +51,10 @@ const Dashboard = () => {
   const createNewResume = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createResume(title);
+      const res = await createResume(title);
       setShowCreateResume(false);
       setTitle("");
-      loadAllResumes();
+      navigate(`/builder/${res.resume._id}`);
     } catch (error) {
       console.log(error);
     }
@@ -65,11 +66,10 @@ const Dashboard = () => {
       formData.append("pdf", file);
       formData.append("title", title);
 
-      await uploadResume(formData); // API call
+      await uploadResume(formData);
 
       setShowUploadResume(false);
       setTitle("");
-      loadAllResumes();
     } catch (error) {
       console.log(error);
     }
@@ -79,9 +79,14 @@ const Dashboard = () => {
     e.preventDefault();
     try {
       await updateResumeTitle(editResumeId, title);
+      setAllResumes(
+        allResumes.map((resume) =>
+          resume._id === editResumeId ? { ...resume, title } : resume
+        )
+      );
       setEditResumeId("");
       setTitle("");
-      loadAllResumes();
+      toast.success("Title updated successfully");
     } catch (error) {
       console.log(error);
     }
@@ -90,7 +95,8 @@ const Dashboard = () => {
   const handleDelete = async (resumeId: string) => {
     try {
       await deleteResume(resumeId);
-      loadAllResumes();
+      setAllResumes((prev) => prev.filter((r) => r._id !== resumeId));
+      toast.success("Resume deleted successfully");
     } catch (error) {
       console.log(error);
     }
@@ -160,7 +166,8 @@ const Dashboard = () => {
                   className="absolute bottom-1 text-[11px] text-slate-400 group-hover:text-slate-500 transition-all duration-300 px-2 text-center"
                   style={{ color: baseColor + "90" }}
                 >
-                  Updated on {new Date(resume.updatedAt).toLocaleDateString()}
+                  Updated on{" "}
+                  {new Date(resume.updatedAt ?? "").toLocaleDateString()}
                 </p>
                 <div
                   onClick={(e) => e.stopPropagation()}
