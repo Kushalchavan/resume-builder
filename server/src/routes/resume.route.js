@@ -22,6 +22,6 @@ router.put(
   protectRoute,
   updateResume
 );
-router.delete("/delete:resumeId", protectRoute, deleteResume);
+router.delete("/delete/:resumeId", protectRoute, deleteResume);
 
 export default router;
