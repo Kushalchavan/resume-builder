@@ -29,6 +29,7 @@ const Dashboard = () => {
   const [allResumes, setAllResumes] = useState<ResumeData[]>([]);
   const [title, setTitle] = useState<string>("");
   const [editResumeId, setEditResumeId] = useState<string>("");
+  const [editTitleValue, setEditTitleValue] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
@@ -78,14 +79,17 @@ const Dashboard = () => {
   const editTitle = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateResumeTitle(editResumeId, title);
+      await updateResumeTitle(editResumeId, editTitleValue);
+
       setAllResumes(
         allResumes.map((resume) =>
-          resume._id === editResumeId ? { ...resume, title } : resume
+          resume._id === editResumeId
+            ? { ...resume, title: editTitleValue }
+            : resume
         )
       );
+
       setEditResumeId("");
-      setTitle("");
       toast.success("Title updated successfully");
     } catch (error) {
       console.log(error);
@@ -213,8 +217,8 @@ const Dashboard = () => {
       {editResumeId && (
         <EditResumeModel
           setEditResumeId={setEditResumeId}
-          title={title}
-          setTitle={setTitle}
+          title={editTitleValue}
+          setTitle={setEditTitleValue}
           handleSubmit={editTitle}
         />
       )}

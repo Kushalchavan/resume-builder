@@ -137,3 +137,34 @@ export const updateResume = async (req, res) => {
     });
   }
 };
+
+export const updateResumeTitle = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { resumeId, title } = req.body;
+
+    if (!resumeId || !title) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const resume = await Resume.findOneAndUpdate(
+      { userId, _id: resumeId },
+      { title },
+      { new: true }
+    );
+
+    if (!resume) {
+      return res.status(404).json({ message: "Resume not found" });
+    }
+
+    return res.status(200).json({
+      message: "Title updated successfully",
+      resume,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};

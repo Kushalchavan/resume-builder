@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/user.route.js";
 import resumeRouter from "./routes/resume.route.js";
+import aiRouter from "./routes/ai.routes.js";
 import { connectDb } from "./config/db.js";
 import cors from "cors";
 
@@ -23,6 +24,7 @@ app.use(
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/resumes", resumeRouter);
+app.use("/api/v1/ai", aiRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
