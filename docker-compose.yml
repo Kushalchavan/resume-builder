@@ -10,8 +10,8 @@ services:
     build: ./server
     container_name: resume_backend
     restart: always
-    environment:
-      - MONGODB_URL=mongodb+srv://kushalchavan2002_db_user:pzsy5c3PhcZu94dj@cluster0.vwt4evs.mongodb.net/?appName=Cluster0
+    env_file:
+      - ./server/.env
     ports:
       - "3000:3000"
 
