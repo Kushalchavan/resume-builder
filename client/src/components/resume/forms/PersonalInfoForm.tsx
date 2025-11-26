@@ -7,7 +7,7 @@ type PersonalInfoFormProps = {
   data: PersonalInfo;
   onChange: (updated: PersonalInfo) => void;
   removeBackground: boolean;
-  setRemoveBackground: (value: boolean) => void;
+  setRemoveBackground: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const PersonalInfoForm = ({
