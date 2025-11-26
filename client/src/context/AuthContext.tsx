@@ -17,6 +17,18 @@ interface AuthContextType {
   signup: (data: any) => Promise<void>;
 }
 
+interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+interface SignupPayload {
+  username: string;
+  email: string;
+  password: string;
+}
+
+
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -43,12 +55,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     fetchUser();
   }, []);
 
-  const login = async (data) => {
+  const login = async (data: LoginPayload) => {
   const res = await loginUser(data);
   setUser(res.user);
 };
 
-const signup = async(data) => {
+const signup = async(data : SignupPayload) => {
   const res = await signupUser(data);
   setUser(res.user);
 }

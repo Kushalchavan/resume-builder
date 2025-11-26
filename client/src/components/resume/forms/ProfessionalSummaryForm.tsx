@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { enhanceProfessionalSummary } from "../../../api/aiApi";
+import type { ResumeData } from "../../../types/resume";
 
 type ProfessionalSummaryFormProps = {
   data: string;
   onChange: (value: string) => void;
-  setResumeData: React.Dispatch<React.SetStateAction<any>>;
+  setResumeData: React.Dispatch<React.SetStateAction<ResumeData>>;
 };
 
 const ProfessionalSummaryForm = ({
@@ -16,29 +17,28 @@ const ProfessionalSummaryForm = ({
 }: ProfessionalSummaryFormProps) => {
   const [isGenerating, setIsGenerating] = useState(false);
 
-const generateSummary = async () => {
-  try {
-    setIsGenerating(true);
+  const generateSummary = async () => {
+    try {
+      setIsGenerating(true);
 
-    const res = await enhanceProfessionalSummary(data);
-    const enhanced = res.enhanceContent;
+      const res = await enhanceProfessionalSummary(data);
+      const enhanced = res.enhanceContent;
 
-    onChange(enhanced);
+      onChange(enhanced);
 
-    setResumeData(prev => ({
-      ...prev,
-      professional_summary: enhanced,
-    }));
+      setResumeData((prev) => ({
+        ...prev,
+        professional_summary: enhanced,
+      }));
 
-    toast.success("Summary Enhanced!");
-  } catch (err) {
-    toast.error("Something went wrong");
-    console.error(err);
-  } finally {
-    setIsGenerating(false);
-  }
-};
-
+      toast.success("Summary Enhanced!");
+    } catch (err) {
+      toast.error("Something went wrong");
+      console.error(err);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   return (
     <div className="space-y-4">

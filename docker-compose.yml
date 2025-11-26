@@ -1,0 +1,28 @@
+services:
+  frontend:
+    build: ./client
+    container_name: resume_frontend
+    restart: always
+    expose:
+      - "80"
+
+  backend:
+    build: ./server
+    container_name: resume_backend
+    restart: always
+    environment:
+      - MONGODB_URL=mongodb+srv://kushalchavan2002_db_user:pzsy5c3PhcZu94dj@cluster0.vwt4evs.mongodb.net/?appName=Cluster0
+    ports:
+      - "3000:3000"
+
+  nginx:
+    image: nginx:alpine
+    container_name: proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
