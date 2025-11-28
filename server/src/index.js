@@ -17,7 +17,11 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: ["http://localhost", "http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://resume-builder-frontend-jr0q.onrender.com",
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
